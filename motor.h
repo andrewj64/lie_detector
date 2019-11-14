@@ -7,7 +7,6 @@
 
 void motor_init(void);
 void set_speed(int speed);
-void wind_up(int time);
 void tick_up(void);
 void tick_down(void);
 

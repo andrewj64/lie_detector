@@ -1,0 +1,27 @@
+Purpose
+	establish baseline and detect lie
+
+MAJOR TASKS:
+LCD
+	-hook up to pulse input and resistivity sensor
+	-output graph?
+pulse sensor working
+	---research pulse outputs
+	--hook up to adc
+stepper motor
+	--change to move a bit
+	---check torque
+	--build chassis
+	---buy nerf guns
+	have nerf war
+resistivity sensor
+	--research and build circuit
+	-test with LEDS
+
+SUBTASKS:
+research on lie detectors, ie how high is a nervous pulse and how resistive is a nervous resistivity
+	-decide how we want to create a baseline. Do we need an input to not shoot them during baseline questions?
+look at pulse sensor data sheet
+	-figure out how to connect and use it
+resistivity sensor circuit design
+	-draw diagram and build it for testing

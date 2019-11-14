@@ -1,7 +1,6 @@
 #include "stm32l476xx.h"
 #include "Systick.h"
 #include "LCD.h"
-#include "keypad.h"
 #include "motor.h"
 #include <stdlib.h>
 
@@ -67,28 +66,22 @@
 //****************************************************************************************************************
 /*
 *	BEGIN
-*		Set up HSI clock
-*		Initialize keypad GPIO
-*		loop forever
-*			Loop until #
-*				Scan for key press
-*				make sure pressed key is valid
-*				store keypress in counter variable
-*			EndLoop
-*			convert count to an int 
-*			make sure the number is less than 59. If not, make 59
-*			wind up clock (probs a loop that adds and ticks clock)
-*			wait until # is pressed again (loop)
-* 		loop until counter variable is zero
-*				decrement motor by one tick
-*				if counter variable % 15 == 0
-*					tick another time
-*				counter variable--
-*			endloop
-*			turn on buzzer for a sec
-*		endloop
+		initilaize all our peripherals
+		loop until baseline is established? (stops on button press)
+			read pulse and resistivity
+			output data
+			store baseline data to calc if lie?
+		endloop
+		loop forever
+			read in resistivity and pulse data
+			output data to LCD
+			determine if it is a lie
+			if lie,
+				output motor to shoot in face
+				maybe buzz some ancienct runes if we feel like doing that.
+		never endloop
 * END
-*			
+*	
 *
 */
 
@@ -100,58 +93,32 @@ int main(void){
 	
 	while((RCC->CR & RCC_CR_HSIRDY) == 0); //wait for ready bit
 	
-	SysTick_Init();
+
 	LCD_Initialization();
-	keypad_pin_init();
+
 	motor_init();
 	
-		// Enable GPIO Clock for buzzer
-	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
-	
-	// GPIO Mode: Input(00), Output (01),
-	// AF(10), Analog (11)
-	GPIOE->MODER &= ~0x30000U;		// clear PE8 MODER (buzzer)
-	GPIOE->MODER |=  0x10000U;			// set PE8 to output
-	
-	// GPIO Push-Pull: No pull-up pull-down (00),
-	// Pull-up (01), Pull-down (10), Reserved (11)
-//	GPIOE->PUPDR &= ~0xC000U;
-//	GPIOE->PUPDR |= 0x8000U; // Pull down
-	
-	//GPIOE->OTYPER &= ~100U;		// set PE8 to push-pull
+//		// Enable GPIO Clock for buzzer
+//	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
+//	
+//	// GPIO Mode: Input(00), Output (01),
+//	// AF(10), Analog (11)
+//	GPIOE->MODER &= ~0x30000U;		// clear PE8 MODER (buzzer)
+//	GPIOE->MODER |=  0x10000U;			// set PE8 to output
+//	
+//	// GPIO Push-Pull: No pull-up pull-down (00),
+//	// Pull-up (01), Pull-down (10), Reserved (11)
+////	GPIOE->PUPDR &= ~0xC000U;
+////	GPIOE->PUPDR |= 0x8000U; // Pull down
+//	
+//	//GPIOE->OTYPER &= ~100U;		// set PE8 to push-pull
 	set_speed(8000);
 	
 	while(1)
 	{
-		uint8_t input = '0';
-		uint8_t count [3] = {0};
-		uint32_t index = 0;
-		while(input != 0x23)
-		{
-			input = keypad_scan();									//read in input
-			if(input >= '0' && input <= '9' && index < 2)				//check if valid
-			{
-				count[index] = input;											//set as a digit
-				index++;
-			}
-		}
-		LCD_DisplayString(count);
-		uint32_t countTime = (count[1] - 48) + (count[0]- 48)*10;				//convert count to an interger
-		if(countTime > 59)												//if countTime is bigger than 59, just go ahead and fix that
-		{
-			countTime = 59;													//make it 59
-		}
-
-		wind_up(countTime);					//loop to wind up clock
-		
-		input = 0;
-		while(input != 0x23)				//wait loop to wait for # press
-		{
-			input = keypad_scan();									//read in input
-		}
-
-		setSec(countTime);
-		buzzOn();
+		tick_up();
+		for(int i = 0; i < 200000;i++);
+		tick_down();
 	}
 }
 
