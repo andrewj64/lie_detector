@@ -1,0 +1,24 @@
+Dependencies for Project 'lab4', Target 'Target 1': (DO NOT MODIFY !)
+F (.\LCD.c)(0x5D9629BE)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32L476xx-o .\objects\lcd.o --omf_browse .\objects\lcd.crf --depend .\objects\lcd.d)
+I (lcd.h)(0x56E0E812)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C5634)
+I (stm32l476xx.h)(0x5D95FBC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h)(0x5A565AC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\mpu_armv7.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h)(0x59A0A356)
+F (.\main.c)(0x5D9B9458)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32L476xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (stm32l476xx.h)(0x5D95FBC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C5634)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h)(0x5A565AC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\mpu_armv7.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h)(0x59A0A356)
+I (lcd.h)(0x56E0E812)
+F (.\startup_stm32l476xx.s)(0x563F80A4)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "STM32L476xx SETA 1"--list .\listings\startup_stm32l476xx.lst --xref -o .\objects\startup_stm32l476xx.o --depend .\objects\startup_stm32l476xx.d)
+F (.\LCD.h)(0x56E0E812)()
+F (.\stm32l476xx.h)(0x5D95FBC2)()

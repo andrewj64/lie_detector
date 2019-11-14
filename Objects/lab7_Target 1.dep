@@ -1,0 +1,65 @@
+Dependencies for Project 'lab7', Target 'Target 1': (DO NOT MODIFY !)
+F (.\main.c)(0x5DB74A4E)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32L476xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (stm32l476xx.h)(0x5D95FBC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C5634)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h)(0x5A565AC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\mpu_armv7.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h)(0x59A0A356)
+I (Systick.h)(0x5DB74374)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588C5634)
+I (LCD.h)(0x56E0E812)
+I (keypad.h)(0x5D9F53CA)
+I (motor.h)(0x5DB7425A)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588C5634)
+F (.\startup_stm32l476xx.s)(0x5DB1CCC2)(--cpu Cortex-M4.fp --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "STM32L476xx SETA 1"--list .\listings\startup_stm32l476xx.lst --xref -o .\objects\startup_stm32l476xx.o --depend .\objects\startup_stm32l476xx.d)
+F (.\stm32l476xx.h)(0x5D95FBC2)()
+F (.\Systick.c)(0x5DB74858)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32L476xx-o .\objects\systick.o --omf_browse .\objects\systick.crf --depend .\objects\systick.d)
+I (Systick.h)(0x5DB74374)
+I (stm32l476xx.h)(0x5D95FBC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C5634)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h)(0x5A565AC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\mpu_armv7.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h)(0x59A0A356)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588C5634)
+I (motor.h)(0x5DB7425A)
+F (.\Systick.h)(0x5DB74374)()
+F (.\keypad.c)(0x5DB1C0C6)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32L476xx-o .\objects\keypad.o --omf_browse .\objects\keypad.crf --depend .\objects\keypad.d)
+I (keypad.h)(0x5D9F53CA)
+I (stm32l476xx.h)(0x5D95FBC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C5634)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h)(0x5A565AC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\mpu_armv7.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h)(0x59A0A356)
+F (.\keypad.h)(0x5D9F53CA)()
+F (.\LCD.c)(0x5D9F3EBC)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32L476xx-o .\objects\lcd.o --omf_browse .\objects\lcd.crf --depend .\objects\lcd.d)
+I (lcd.h)(0x56E0E812)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C5634)
+I (stm32l476xx.h)(0x5D95FBC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h)(0x5A565AC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\mpu_armv7.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h)(0x59A0A356)
+F (.\LCD.h)(0x56E0E812)()
+F (.\motor.c)(0x5DB74490)(--c99 -c --cpu Cortex-M4.fp -D__EVAL -g -O0 --apcs=interwork --split_sections -I C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32L476xx-o .\objects\motor.o --omf_browse .\objects\motor.crf --depend .\objects\motor.d)
+I (motor.h)(0x5DB7425A)
+I (stm32l476xx.h)(0x5D95FBC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588C5634)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h)(0x5A565AC2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\mpu_armv7.h)(0x5A8EE4C2)
+I (C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include\system_stm32l4xx.h)(0x59A0A356)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x588C5634)
+F (.\motor.h)(0x5DB7425A)()
