@@ -17,18 +17,12 @@ void set_speed(int speed)
 	max = speed;
 }
 
-void wind_up(int time)
-{
-	for(; time > 0; time--)
-	{
-		tick_up();
-	}
-}
 
 void tick_up(void)
 {
 	uint8_t a, a0, b, b0;
-	for(int j = 0; j < 512 / 60; j++)			// 64 steps x 5. deg = 360 deg
+	int x = 512 / 4;
+	for(int j = 0; j < x; j++)			// 64 steps x 5. deg = 360 deg
 	{
 		for(int i = 0; i < 4; i++)		// clockwise
 		{
@@ -48,7 +42,8 @@ void tick_up(void)
 void tick_down(void)
 {
 	uint8_t a, a0, b, b0;
-	for(int j = 0; j < 512 / 60; j++)			// 64 steps x 5. deg = 360 deg
+	int x = 512 / 4;
+	for(int j = 0; j < x; j++)			// 64 steps x 5. deg = 360 deg
 	{
 		for(int i = 3; i > 0; i--)		// clockwise
 		{
