@@ -406,16 +406,6 @@
               <FilePath>.\Systick.h</FilePath>
             </File>
             <File>
-              <FileName>keypad.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\keypad.c</FilePath>
-            </File>
-            <File>
-              <FileName>keypad.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\keypad.h</FilePath>
-            </File>
-            <File>
               <FileName>LCD.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\LCD.c</FilePath>
@@ -434,6 +424,36 @@
               <FileName>motor.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\motor.h</FilePath>
+            </File>
+            <File>
+              <FileName>resistivity.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\resistivity.c</FilePath>
+            </File>
+            <File>
+              <FileName>resistivity.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\resistivity.h</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\DAC.c</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\ADC.h</FilePath>
+            </File>
+            <File>
+              <FileName>DAC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\DAC.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -10,6 +10,7 @@
 .\objects\main.o: Systick.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\main.o: LCD.h
-.\objects\main.o: keypad.h
 .\objects\main.o: motor.h
+.\objects\main.o: ADC.h
+.\objects\main.o: resistivity.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

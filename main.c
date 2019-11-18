@@ -2,6 +2,8 @@
 #include "Systick.h"
 #include "LCD.h"
 #include "motor.h"
+#include "ADC.h"
+#include "resistivity.h"
 #include <stdlib.h>
 
 //*************************************  32L476GDISCOVERY ***************************************************************************
@@ -93,9 +95,9 @@ int main(void){
 	
 	while((RCC->CR & RCC_CR_HSIRDY) == 0); //wait for ready bit
 	
-
+	adcInit();
+	rInit();
 	LCD_Initialization();
-
 	motor_init();
 	
 //		// Enable GPIO Clock for buzzer

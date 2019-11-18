@@ -21,23 +21,36 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.1.0
 Dialog DLL:      TCM.DLL V1.32.0.0
  
 <h2>Project:</h2>
-E:\Lab7\lab7.uvprojx
-Project File Date:  10/26/2019
+C:\Users\A02049150\Documents\lie_detector\lie_detector.uvprojx
+Project File Date:  11/18/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
+compiling resistivity.c...
+resistivity.h(6): warning:  #1295-D: Deprecated declaration rInit - give arg types
+  void rInit();
+resistivity.h(8): warning:  #1-D: last line of file ends without a newline
+  #endif
+resistivity.c: 2 warnings, 0 errors
 compiling main.c...
-keypad.h(5): warning:  #1295-D: Deprecated declaration keypad_scan - give arg types
-  unsigned char keypad_scan();
-keypad.h(6): warning:  #1-D: last line of file ends without a newline
-  void keypad_pin_init();
-keypad.h(6): warning:  #1295-D: Deprecated declaration keypad_pin_init - give arg types
-  void keypad_pin_init();
+ADC.h(9): warning:  #1-D: last line of file ends without a newline
+  void TIM3_IRQHandler(void);
+resistivity.h(6): warning:  #1295-D: Deprecated declaration rInit - give arg types
+  void rInit();
+resistivity.h(8): warning:  #1-D: last line of file ends without a newline
+  #endif
 main.c: 3 warnings, 0 errors
+compiling ADC.c...
+ADC.h(9): warning:  #1-D: last line of file ends without a newline
+  void TIM3_IRQHandler(void);
+ADC.c: 1 warning, 0 errors
+compiling DAC.c...
 linking...
-Program Size: Code=4500 RO-data=496 RW-data=32 ZI-data=1632  
-".\Objects\lab7.axf" - 0 Error(s), 3 Warning(s).
+.\Objects\lab7.axf: Warning: L6989W: Could not apply patch sdcomp-29491-629360 to instruction VPOP     {d8-d12} at offset 0x24, instruction is within an IT block and is not the last instruction for sin_i_x.o(i.____kernel_sin$lsc).
+Program Size: Code=2340 RO-data=424 RW-data=188 ZI-data=1796  
+Finished: 0 information, 1 warning and 0 error messages.
+".\Objects\lab7.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -51,7 +64,7 @@ Package Vendor: Keil
   C:\Keil_v5\ARM\PACK\Keil\STM32L4xx_DFP\2.0.0\Drivers\CMSIS\Device\ST\STM32L4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

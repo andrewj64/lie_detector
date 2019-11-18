@@ -2,9 +2,11 @@
 ".\objects\main.o"
 ".\objects\startup_stm32l476xx.o"
 ".\objects\systick.o"
-".\objects\keypad.o"
 ".\objects\lcd.o"
 ".\objects\motor.o"
+".\objects\resistivity.o"
+".\objects\adc.o"
+".\objects\dac.o"
 --strict --scatter ".\Objects\lab7.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
