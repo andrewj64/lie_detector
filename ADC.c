@@ -72,6 +72,18 @@ void adcInit(void)
 
 	// trigger becomes immediately effective once software starts ADC.
 	ADC1->CR |= ADC_CR_ADSTART;
+	
+	
+	//added for final project to make sure the adc works with pa1 without the setup in main
+	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
+	GPIOA->MODER |= 3U << 2;		// configure PA1 as analog mode
+		
+	// GPIO Push-Pull: No pull-up pull-down (00),
+	// Pull-up (01), Pull-down (10), Reserved (11)
+	GPIOA->PUPDR &= ~(3U << 2);		// no pull-up pull-down
+	
+	//GPIOA port analog switch control register (ASCR)
+	GPIOA->ASCR |= 1U<<1;	
 }
 
 // configure timer A
@@ -136,36 +148,9 @@ void ADC1_2_IRQHandler()
 	}
 }
 
-
-
-void TIM3_Init(void)
+uint32_t getResult()
 {
-	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM3EN;	// enable clock of timer 2
-	
-	TIM3->CR1 &= ~TIM_CR1_DIR;		// counting direction = up
-	
-	// timer driving frequency = 2 MHz/(1+PSC) = 2 MHz/(1+7) = 2 MHz
-	// trigger frequency = 2 MHz/(1+ARR) = 2MHz/(1+3999) = 500 Hz
-	TIM3->PSC  = 1599;
-	TIM3->ARR  = 4999;
-	TIM3->CCR1 = 2500;		// duty ratio 50%
-	TIM3->DIER |= TIM_DIER_UIE;
-	
-	//TIM2->CCER |= TIM_CCER_CC1E;	//OC1 signal is output
-	NVIC_EnableIRQ(TIM3_IRQn);
-
-	TIM3->CR1  |= TIM_CR1_CEN;		// enable timer dangit
-	
-
+	return result;
 }
 
 
-void TIM3_IRQHandler()
-{
-	TIM4->CR1  &= ~TIM_CR1_CEN;		// disable timer dangit
-	uint16_t arr = 19999 - (result - 350)*5;    //transfer function
-	//set arr, psc and cr based on value in result for tim4
-	TIM4->ARR = arr;// value between 1999 and 19999
-	TIM4->CCR1 = arr/2;
-	TIM4->CR1 |= TIM_CR1_CEN;		// enable timer dangit
-}

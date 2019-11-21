@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>lab7</OutputName>
+          <OutputName>lie_detector</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -441,19 +441,9 @@
               <FilePath>.\ADC.c</FilePath>
             </File>
             <File>
-              <FileName>DAC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\DAC.c</FilePath>
-            </File>
-            <File>
               <FileName>ADC.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\ADC.h</FilePath>
-            </File>
-            <File>
-              <FileName>DAC.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\DAC.h</FilePath>
             </File>
           </Files>
         </Group>

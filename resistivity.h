@@ -3,6 +3,6 @@
 #include "stm32l476xx.h"
 
 
-void rInit();
+void rInit(void);
 
 #endif

@@ -6,7 +6,7 @@
 ".\objects\motor.o"
 ".\objects\resistivity.o"
 ".\objects\adc.o"
---strict --scatter ".\Objects\lab7.sct"
+--strict --scatter ".\Objects\lie_detector.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
---list ".\Listings\lab7.map" -o .\Objects\lab7.axf
+--list ".\Listings\lie_detector.map" -o .\Objects\lie_detector.axf

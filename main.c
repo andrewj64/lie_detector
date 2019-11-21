@@ -90,38 +90,56 @@
 
 int main(void){
 	
+	
 	// Switch system clock to HSI here
-	RCC->CR |= RCC_CR_HSION;
+ 	RCC->CR |= RCC_CR_HSION;
 	
 	while((RCC->CR & RCC_CR_HSIRDY) == 0); //wait for ready bit
 	
-	adcInit();
-	rInit();
-	LCD_Initialization();
-	motor_init();
+//	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
+//	GPIOA->MODER &= ~0xF;
 	
-//		// Enable GPIO Clock for buzzer
-//	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
-//	
-//	// GPIO Mode: Input(00), Output (01),
-//	// AF(10), Analog (11)
-//	GPIOE->MODER &= ~0x30000U;		// clear PE8 MODER (buzzer)
-//	GPIOE->MODER |=  0x10000U;			// set PE8 to output
-//	
+	adcInit();
+	LCD_Initialization();
+	TIM2_Init();
+
+	
+//	GPIOA->MODER |= 3U << 2;		// configure PA1 as analog mode
+//		
 //	// GPIO Push-Pull: No pull-up pull-down (00),
 //	// Pull-up (01), Pull-down (10), Reserved (11)
-////	GPIOE->PUPDR &= ~0xC000U;
-////	GPIOE->PUPDR |= 0x8000U; // Pull down
+//	GPIOA->PUPDR &= ~(3U << 2);		// no pull-up pull-down
 //	
-//	//GPIOE->OTYPER &= ~100U;		// set PE8 to push-pull
-	set_speed(8000);
+//	//GPIOA port analog switch control register (ASCR)
+//	GPIOA->ASCR |= 1U<<1;	
+	
+	
+	uint8_t* string = (uint8_t*)"start";
 	
 	while(1)
 	{
-		tick_up();
-		for(int i = 0; i < 200000;i++);
-		tick_down();
+		uint32_t input = getResult();
+		LCD_DisplayString(string);
+		if(input > 60)
+		{
+			string = (uint8_t*)"lies!";
+		}
+		else
+		{
+			string = (uint8_t*)"true!";
+		}
 	}
+
+//  motor_init();
+
+//	set_speed(8000);
+//	
+//	while(1)
+//	{
+//		tick_up();
+//		for(int i = 0; i < 200000;i++);
+//		tick_down();
+//	}
 }
 
 
