@@ -1,6 +1,6 @@
 #include "ADC.h"
 
-uint32_t result;
+uint32_t result, beats;
 
 void adcInit(void)
 {
@@ -115,6 +115,25 @@ void TIM2_Init(void)
 
 }
 
+void TIM3_Init(void)
+{
+	RCC->APB1ENR1 |= RCC_APB1ENR1_TIM3EN;	// enable clock of timer 2
+	TIM3->CR1 &= ~TIM_CR1_DIR;		// counting direction = up
+	
+	// timer driving frequency = 2 MHz/(1+PSC) = 2 MHz/(1+7) = 2 MHz
+	// trigger frequency = 2 MHz/(1+ARR) = 2MHz/(1+3999) = 500 Hz
+	TIM3->PSC  = 7;
+	TIM3->ARR  = 3999;
+	TIM3->CCR1 = 2000;		// duty ratio 50%
+	TIM3->DIER |= TIM_DIER_UIE;
+	
+	NVIC_EnableIRQ(TIM3_IRQn);
+
+	TIM3->CR1  |= TIM_CR1_CEN;		// enable timer dangit
+	
+
+}
+
 void ADC1_Wakeup(void)
 {
 	if((ADC1->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD)		// wake up!!
@@ -128,6 +147,18 @@ void ADC1_Wakeup(void)
 	int waitTime = 20 * (80000000 / 1000000);
 	while(waitTime)
 		waitTime--;
+}
+
+
+void TIM3_IRQHandler()
+{
+	// check if the pulse is high or low
+	// add logic from PulseSensor::processLatestSample()?
+	if(result < 100)	// high pulse
+	{
+		beats++;
+	}
+	TIM3->SR &= ~TIM_SR_UIF; // clear flag
 }
 
 void TIM2_IRQHandler()
