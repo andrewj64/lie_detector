@@ -1,7 +1,7 @@
-.\objects\lcd.o: LCD.c
-.\objects\lcd.o: lcd.h
+.\objects\lcd.o: src\LCD.c
+.\objects\lcd.o: src\lcd.h
 .\objects\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\lcd.o: stm32l476xx.h
+.\objects\lcd.o: src\stm32l476xx.h
 .\objects\lcd.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h
 .\objects\lcd.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h
 .\objects\lcd.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h

@@ -1,6 +1,6 @@
-.\objects\motor.o: motor.c
-.\objects\motor.o: motor.h
-.\objects\motor.o: stm32l476xx.h
+.\objects\motor.o: src\motor.c
+.\objects\motor.o: src\motor.h
+.\objects\motor.o: src\stm32l476xx.h
 .\objects\motor.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm4.h
 .\objects\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\motor.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h

@@ -114,32 +114,32 @@ int main(void){
 //	GPIOA->ASCR |= 1U<<1;	
 	
 	
-	uint8_t* string = (uint8_t*)"start";
-	
-	while(1)
-	{
-		uint32_t input = getResult();
-		LCD_DisplayString(string);
-		if(input > 60)
-		{
-			string = (uint8_t*)"lies!";
-		}
-		else
-		{
-			string = (uint8_t*)"true!";
-		}
-	}
-
-//  motor_init();
-
-//	set_speed(8000);
+//	uint8_t* string = (uint8_t*)"start";
 //	
 //	while(1)
 //	{
-//		tick_up();
-//		for(int i = 0; i < 200000;i++);
-//		tick_down();
+//		uint32_t input = getResult();
+//		LCD_DisplayString(string);
+//		if(input > 60)
+//		{
+//			string = (uint8_t*)"lies!";
+//		}
+//		else
+//		{
+//			string = (uint8_t*)"true!";
+//		}
 //	}
+
+  motor_init();
+
+	set_speed(8000);
+	
+	while(1)
+	{
+		tick_up();
+		//for(int i = 0; i < 200000;i++);
+		//tick_down();
+	}
 }
 
 

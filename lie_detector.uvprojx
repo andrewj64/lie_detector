@@ -383,67 +383,77 @@
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
+              <FilePath>.\src\main.c</FilePath>
             </File>
             <File>
               <FileName>startup_stm32l476xx.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\startup_stm32l476xx.s</FilePath>
+              <FilePath>.\src\startup_stm32l476xx.s</FilePath>
             </File>
             <File>
               <FileName>stm32l476xx.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\stm32l476xx.h</FilePath>
+              <FilePath>.\src\stm32l476xx.h</FilePath>
             </File>
             <File>
               <FileName>Systick.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Systick.c</FilePath>
+              <FilePath>.\src\Systick.c</FilePath>
             </File>
             <File>
               <FileName>Systick.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Systick.h</FilePath>
+              <FilePath>.\src\Systick.h</FilePath>
             </File>
             <File>
               <FileName>LCD.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\LCD.c</FilePath>
+              <FilePath>.\src\LCD.c</FilePath>
             </File>
             <File>
               <FileName>LCD.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\LCD.h</FilePath>
+              <FilePath>.\src\LCD.h</FilePath>
             </File>
             <File>
               <FileName>motor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\motor.c</FilePath>
+              <FilePath>.\src\motor.c</FilePath>
             </File>
             <File>
               <FileName>motor.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\motor.h</FilePath>
+              <FilePath>.\src\motor.h</FilePath>
             </File>
             <File>
               <FileName>resistivity.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\resistivity.c</FilePath>
+              <FilePath>.\src\resistivity.c</FilePath>
             </File>
             <File>
               <FileName>resistivity.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\resistivity.h</FilePath>
+              <FilePath>.\src\resistivity.h</FilePath>
             </File>
             <File>
               <FileName>ADC.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\ADC.c</FilePath>
+              <FilePath>.\src\ADC.c</FilePath>
             </File>
             <File>
               <FileName>ADC.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\ADC.h</FilePath>
+              <FilePath>.\src\ADC.h</FilePath>
+            </File>
+            <File>
+              <FileName>pulseSensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\pulseSensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>pulseSensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\pulseSensor.h</FilePath>
             </File>
           </Files>
         </Group>
