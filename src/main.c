@@ -113,7 +113,8 @@ int main(void){
 	//   SEG4 = PB15    SEG10 = PA15     SEG16 = PD12    SEG22 = PC4
 	//   SEG5 = PD9     SEG11 = PB4      SEG17 = PD10    SEG23 = PA6
 	TIM2_Init();
-	motor_init(); //uses PB2,PB3,PB6,PB7	
+	motor_init(); //uses PB2,PB3,PB6,PB7
+	set_speed(8000);	//for motor
 	
 	//initialize pa5 for the button overlay
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
@@ -159,7 +160,7 @@ int main(void){
 
   
 
-//	set_speed(8000);
+	
 //	
 //	while(1)
 //	{
