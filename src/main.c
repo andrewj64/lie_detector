@@ -85,11 +85,11 @@
 * END
 *	
 *
-*/
-
+*/ 
+uint8_t * toString(int x);
 
 int main(void){
-	
+	int displaySetting = 0;
 	
 	// Switch system clock to HSI here
  	RCC->CR |= RCC_CR_HSION;
@@ -99,47 +99,88 @@ int main(void){
 //	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
 //	GPIOA->MODER &= ~0xF;
 	
-	adcInit();
-	LCD_Initialization();
+	adcInit(); //uses PA1
+	LCD_Initialization();		//no gpio
+	// pins used by LCD
+	//   VLCD = PC3
+	//
+	//   COM0 = PA8     COM1  = PA9      COM2  = PA10    COM3  = PB9
+	//
+	//   SEG0 = PA7     SEG6  = PD11     SEG12 = PB5     SEG18 = PD8
+	//   SEG1 = PC5     SEG7  = PD13     SEG13 = PC8     SEG19 = PB14
+	//   SEG2 = PB1     SEG8  = PD15     SEG14 = PC6     SEG20 = PB12
+	//   SEG3 = PB13    SEG9  = PC7      SEG15 = PD14    SEG21 = PB0
+	//   SEG4 = PB15    SEG10 = PA15     SEG16 = PD12    SEG22 = PC4
+	//   SEG5 = PD9     SEG11 = PB4      SEG17 = PD10    SEG23 = PA6
 	TIM2_Init();
-
+	motor_init(); //uses PB2,PB3,PB6,PB7
+	set_speed(8000);	//for motor
 	
-//	GPIOA->MODER |= 3U << 2;		// configure PA1 as analog mode
-//		
-//	// GPIO Push-Pull: No pull-up pull-down (00),
-//	// Pull-up (01), Pull-down (10), Reserved (11)
-//	GPIOA->PUPDR &= ~(3U << 2);		// no pull-up pull-down
-//	
-//	//GPIOA port analog switch control register (ASCR)
-//	GPIOA->ASCR |= 1U<<1;	
+	//initialize pa5 for the button overlay
+	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
 	
+	GPIOA->MODER &= ~(0xC00);
 	
-//	uint8_t* string = (uint8_t*)"start";
-//	
-//	while(1)
-//	{
-//		uint32_t input = getResult();
-//		LCD_DisplayString(string);
-//		if(input > 60)
-//		{
-//			string = (uint8_t*)"lies!";
-//		}
-//		else
-//		{
-//			string = (uint8_t*)"true!";
-//		}
-//	}
-
-  motor_init();
-
-	set_speed(8000);
+	GPIOA->PUPDR &= ~(0xC00);
+	GPIOA->PUPDR |= 0x800;
+	
+	uint8_t* string = (uint8_t*)"start";
+	
+	//insert baseline calculations here
 	
 	while(1)
 	{
-		tick_up();
-		//for(int i = 0; i < 200000;i++);
-		//tick_down();
+		
+		if((GPIOA->IDR & (1<<5))){
+			displaySetting = (displaySetting + 1) % 3;
+			while((GPIOA->IDR & (1<<5)) != 0);
+		}
+		uint32_t input = getResult();
+		LCD_DisplayString(string);
+		
+		if(displaySetting == 0){
+			//mode 1, is it a lie or not?
+			if(input > 60)
+			{
+				string = (uint8_t*)"lies!  ";
+			}
+			else
+			{
+				string = (uint8_t*)"true!  ";
+			}
+		}else if(displaySetting == 1){
+			//mode 2, bpm
+			string = (uint8_t *)"BPM   ";
+		} else {
+			//do we want a mode 3 for the resistivity?
+			string = toString(input);
+		}
+		
 	}
+
+  
+
+	
+//	
+//	while(1)
+//	{
+//		tick_up();
+//		//for(int i = 0; i < 200000;i++);
+//		//tick_down();
+//	}
 }
 
-
+uint8_t * toString(int x)
+{
+	static uint8_t numString[6];
+	int y;
+	
+	for(int i = 0; i < 6; i++)
+		{
+			y = x %10;
+			x /= 10;
+			numString[5 - i] = (y + 48);
+			
+		}
+	 return numString;
+}
