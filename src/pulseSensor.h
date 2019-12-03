@@ -18,6 +18,9 @@ volatile int threshSetting;      // used to seed and reset the thresh variable
 volatile int amp;                         // used to hold amplitude of pulse waveform, seeded (sample value)
 volatile unsigned long lastBeatTime;      // used to find IBI. Time (sampleCounter) of the previous detected beat start.
 
+void adc2Init();
+void ADC2_Wakeup();
+
 
 
 #endif

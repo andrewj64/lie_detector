@@ -10,8 +10,118 @@ int T;                           // used to find trough in pulse wave, seeded (s
 int thresh;                      // used to find instant moment of heart beat, seeded (sample value)
 bool firstBeat;               // used to seed rate array so we startup with reasonable BPM
 bool secondBeat;              // used to seed rate array so we startup with reasonable BPM
+uint32_t pulse;
 
-void resetVariables(){
+void adc2Init()
+{
+	// ADC clock and GPIO init
+	RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN;
+	
+	//Disable ADC2 by clearing bit ADC_CR_ADEN in register ADC2->CR
+	ADC2->CR &= ~ADC_CR_ADEN;
+	
+	//Enable I/O analog switches voltage booster
+	SYSCFG->CFGR1 |= SYSCFG_CFGR1_BOOSTEN;
+
+	// Enable the conversion of internal channels
+	ADC123_COMMON->CCR |= ADC_CCR_VREFEN;
+	
+	// do some stuff
+	RCC->CFGR &= ~RCC_CFGR_HPRE_3;
+	
+	//configure the ADC prescaler to 0
+	ADC123_COMMON->CCR &= ~ADC_CCR_PRESC;
+	
+	// select synchronous clock mode(HCLK/1 = 01)
+	ADC123_COMMON->CCR &= ~ADC_CCR_CKMODE;
+	ADC123_COMMON->CCR |= ADC_CCR_CKMODE_0;
+	
+	// configure all ADCs as independent
+	ADC123_COMMON->CCR &= ~ADC_CCR_DUAL;
+	
+	//turn off deep power down mode
+	ADC2_Wakeup();
+	
+	// configure RES bits to set resolution as 12 bits
+	ADC2->CFGR &= ~ADC_CFGR_RES;
+	
+	// select right alignment in CFGR
+	ADC2->CFGR &= ~ADC_CFGR_ALIGN;
+	
+	// Select 1 conversion in the regular channel conversion sequence
+	ADC2->SQR1 &= ~ADC_SQR1_L;
+	
+	// Specify the channel number 6 as 1st conversion in regular sequence
+	ADC2->SQR1 &= ~ADC_SQR1_SQ1;
+	ADC2->SQR1 |= ADC_SQR1_SQ1_1 | ADC_SQR1_SQ1_2;	// channel 6
+
+	// configure the channel 6 as single-ended
+	ADC2->DIFSEL &= ~ADC_DIFSEL_DIFSEL_6;
+	
+	// Select ADC sample time (111 = 640.5 ADC clock cycles)
+	ADC2->SMPR1 |= ADC_SMPR1_SMP6;
+	
+	// Select ADC as discontinuous mode
+	ADC2->CFGR &= ~ADC_CFGR_CONT;
+	
+	//Select software trigger
+	ADC2->CFGR &= ~ADC_CFGR_EXTEN;
+	
+//	// select TIM2_TRG0 event (1011) as external trigger for regular channels
+//	ADC1->CFGR &= ~ADC_CFGR_EXTSEL;		// clear the EXTSEL
+//	ADC1->CFGR |= ADC_CFGR_EXTSEL_3 | ADC_CFGR_EXTSEL_1 | ADC_CFGR_EXTSEL_0;	// do some fancy stuff to set it to TIM2_TRG0
+	
+	//Enable ADC1
+	ADC2->CR |= ADC_CR_ADEN;
+	
+	// Wait until ADC1 is ready
+	while(!(ADC2->ISR & ADC_ISR_ADRDY));
+	// enable ADC handler
+	ADC2->IER |= ADC_IER_EOCIE;
+	NVIC_EnableIRQ(ADC2_2_IRQn);
+
+	// trigger becomes immediately effective once software starts ADC.
+	ADC2->CR |= ADC_CR_ADSTART;
+	
+	
+	//added for final project to make sure the adc works with pa1 without the setup in main
+	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
+	GPIOA->MODER |= 3U << 2;		// configure PA1 as analog mode
+
+	// GPIO Push-Pull: No pull-up pull-down (00),
+	// Pull-up (01), Pull-down (10), Reserved (11)
+	GPIOA->PUPDR &= ~(3U << 2);		// no pull-up pull-down
+	
+	//GPIOA port analog switch control register (ASCR)
+	GPIOA->ASCR |= 1U<<1;
+}
+
+void ADC2_Wakeup(void)
+{
+	if((ADC2->CR & ADC_CR_DEEPPWD) == ADC_CR_DEEPPWD)		// wake up!!
+	{
+		ADC2->CR &= ~ADC_CR_DEEPPWD;	// exit deep power down mode
+	}
+	
+	ADC2->CR |= ADC_CR_ADVREGEN;	// enable the ADC internal voltage regulator
+	
+	// wait for the ADC voltage regulator startup time
+	int waitTime = 20 * (80000000 / 1000000);
+	while(waitTime)
+		waitTime--;
+}
+
+void ADC2_2_IRQHandler()
+{
+	if((ADC2->ISR & ADC_ISR_EOC) == ADC_ISR_EOC)
+	{
+		pulse = ADC2->DR;
+		//ADC2->ISR |= ADC_ISR_ADRDY;
+	}
+}
+
+void resetVariables()
+{
 	for (int i = 0; i < 10; ++i) {
     rate[i] = 0;
   }
