@@ -85,8 +85,8 @@
 * END
 *	
 *
-*/
-
+*/ 
+uint8_t * toString(int x);
 
 int main(void){
 	int displaySetting = 0;
@@ -153,7 +153,7 @@ int main(void){
 			string = (uint8_t *)"BPM   ";
 		} else {
 			//do we want a mode 3 for the resistivity?
-			string = (uint8_t *)"resist";
+			string = toString(input);
 		}
 		
 	}
@@ -170,4 +170,17 @@ int main(void){
 //	}
 }
 
-
+uint8_t * toString(int x)
+{
+	static uint8_t numString[6];
+	int y;
+	
+	for(int i = 0; i < 6; i++)
+		{
+			y = x %10;
+			x /= 10;
+			numString[5 - i] = (y + 48);
+			
+		}
+	 return numString;
+}
