@@ -129,7 +129,6 @@ int main(void){
 	GPIOA->PUPDR |= 0x802;
 	
 	uint8_t* string = (uint8_t*)"start";
-	
 	while(1)
 	{
 		//baseline loop
@@ -171,10 +170,11 @@ int main(void){
 				}
 			}else if(displaySetting == 1){
 				//mode 2, bpm
-				string = toString(inputBPM);
+				string = toString((int)(inputBPM - baselineBPM));
+
 			} else {
 				//do we want a mode 3 for the resistivity?
-				string = toString(input);
+				string = toString((int)(input - baselineR));
 			}
 			
 		}
@@ -194,15 +194,21 @@ int main(void){
 
 uint8_t * toString(int x)
 {
-	static uint8_t numString[6];
+	static uint8_t numString[4];
 	int y;
-	
-	for(int i = 0; i < 6; i++)
+	if(x < 0)
 		{
-			y = x %10;
-			x /= 10;
-			numString[5 - i] = (y + 48);
-			
+			numString[0] = '-';
+		} else {
+			numString[0] = '0';
 		}
+	int z = abs(x);
+	for(int i = 1; i < 4; i++)
+		{
+			y = z %10;
+			z /= 10;
+			numString[4 - i] = (y + 48);
+		}
+		
 	 return numString;
 }
