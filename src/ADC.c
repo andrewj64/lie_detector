@@ -166,6 +166,8 @@ void TIM2_IRQHandler()
 	//start the conversion in software
 	//if((ADC1->ISR & ADC_ISR_EOC) != ADC_ISR_EOC)
 	ADC1->CR |= ADC_CR_ADSTART;
+	ADC2->CR |= ADC_CR_ADSTART;
+
 	//for (int i = 0; i < 600; i++);
 	TIM2->SR &= ~TIM_SR_UIF; // clear flag
 }
@@ -177,11 +179,21 @@ void ADC1_2_IRQHandler()
 		result = ADC1->DR;
 		//ADC1->ISR |= ADC_ISR_ADRDY;
 	}
+	if((ADC2->ISR & ADC_ISR_EOC) == ADC_ISR_EOC)
+	{
+		beats = ADC2->DR;
+		//ADC1->ISR |= ADC_ISR_ADRDY;
+	}
 }
 
 uint32_t getResult()
 {
 	return result;
+}
+
+uint32_t getBeats()
+{
+	return beats;
 }
 
 

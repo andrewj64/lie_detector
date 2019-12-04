@@ -12,6 +12,16 @@ bool firstBeat;               // used to seed rate array so we startup with reas
 bool secondBeat;              // used to seed rate array so we startup with reasonable BPM
 uint32_t pulse;
 
+
+volatile int BPM;                // int that holds raw Analog in 0. updated every call to readSensor()
+volatile int Signal;             // holds the latest incoming raw data (0..1023)
+volatile int IBI;                // int that holds the time interval (ms) between beats! Must be seeded!
+volatile bool Pulse;          // "True" when User's live heartbeat is detected. "False" when not a "live beat".
+volatile bool QS;             // The start of beat has been detected and not read by the Sketch.
+volatile int threshSetting;      // used to seed and reset the thresh variable
+volatile int amp;                         // used to hold amplitude of pulse waveform, seeded (sample value)
+volatile unsigned long lastBeatTime;      // used to find IBI. Time (sampleCounter) of the previous detected beat start.
+
 void adc2Init()
 {
 	// ADC clock and GPIO init
@@ -53,10 +63,10 @@ void adc2Init()
 	
 	// Specify the channel number 6 as 1st conversion in regular sequence
 	ADC2->SQR1 &= ~ADC_SQR1_SQ1;
-	ADC2->SQR1 |= ADC_SQR1_SQ1_1 | ADC_SQR1_SQ1_2;	// channel 6
+	ADC2->SQR1 |= ADC_SQR1_SQ1_1 | ADC_SQR1_SQ1_2 | ADC_SQR1_SQ1_0;	// channel 7
 
 	// configure the channel 6 as single-ended
-	ADC2->DIFSEL &= ~ADC_DIFSEL_DIFSEL_6;
+	ADC2->DIFSEL &= ~ADC_DIFSEL_DIFSEL_7;
 	
 	// Select ADC sample time (111 = 640.5 ADC clock cycles)
 	ADC2->SMPR1 |= ADC_SMPR1_SMP6;
@@ -78,7 +88,7 @@ void adc2Init()
 	while(!(ADC2->ISR & ADC_ISR_ADRDY));
 	// enable ADC handler
 	ADC2->IER |= ADC_IER_EOCIE;
-	NVIC_EnableIRQ(ADC2_2_IRQn);
+	NVIC_EnableIRQ(ADC1_2_IRQn);
 
 	// trigger becomes immediately effective once software starts ADC.
 	ADC2->CR |= ADC_CR_ADSTART;
@@ -86,14 +96,14 @@ void adc2Init()
 	
 	//added for final project to make sure the adc works with pa1 without the setup in main
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
-	GPIOA->MODER |= 3U << 2;		// configure PA1 as analog mode
+	GPIOA->MODER |= 3U << 4;		// configure PA2 as analog mode
 
 	// GPIO Push-Pull: No pull-up pull-down (00),
 	// Pull-up (01), Pull-down (10), Reserved (11)
-	GPIOA->PUPDR &= ~(3U << 2);		// no pull-up pull-down
+	GPIOA->PUPDR &= ~(3U << 4);		// no pull-up pull-down
 	
 	//GPIOA port analog switch control register (ASCR)
-	GPIOA->ASCR |= 1U<<1;
+	GPIOA->ASCR |= 1U<<2;
 }
 
 void ADC2_Wakeup(void)

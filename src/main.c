@@ -4,6 +4,7 @@
 #include "motor.h"
 #include "ADC.h"
 #include "resistivity.h"
+#include "pulseSensor.h"
 #include <stdlib.h>
 
 //*************************************  32L476GDISCOVERY ***************************************************************************
@@ -90,6 +91,8 @@ uint8_t * toString(int x);
 
 int main(void){
 	int displaySetting = 0;
+	int n;
+	float baselineBPM, baselineR;
 	
 	// Switch system clock to HSI here
  	RCC->CR |= RCC_CR_HSION;
@@ -100,6 +103,7 @@ int main(void){
 //	GPIOA->MODER &= ~0xF;
 	
 	adcInit(); //uses PA1
+	adc2Init(); // uses PA2
 	LCD_Initialization();		//no gpio
 	// pins used by LCD
 	//   VLCD = PC3
@@ -119,45 +123,63 @@ int main(void){
 	//initialize pa5 for the button overlay
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
 	
-	GPIOA->MODER &= ~(0xC00);
+	GPIOA->MODER &= ~(0xC03);
 	
-	GPIOA->PUPDR &= ~(0xC00);
-	GPIOA->PUPDR |= 0x800;
+	GPIOA->PUPDR &= ~(0xC03);
+	GPIOA->PUPDR |= 0x802;
 	
 	uint8_t* string = (uint8_t*)"start";
 	
-	//insert baseline calculations here
-	
 	while(1)
 	{
-		
-		if((GPIOA->IDR & (1<<5))){
-			displaySetting = (displaySetting + 1) % 3;
-			while((GPIOA->IDR & (1<<5)) != 0);
-		}
-		uint32_t input = getResult();
+		//baseline loop
+		baselineBPM = 0;
+		baselineR = 0;
+		n = 0;
 		LCD_DisplayString(string);
-		
-		if(displaySetting == 0){
-			//mode 1, is it a lie or not?
-			if(input > 60)
-			{
-				string = (uint8_t*)"lies!  ";
-			}
-			else
-			{
-				string = (uint8_t*)"true!  ";
-			}
-		}else if(displaySetting == 1){
-			//mode 2, bpm
-			string = (uint8_t *)"BPM   ";
-		} else {
-			//do we want a mode 3 for the resistivity?
-			string = toString(input);
+		while((GPIOA->IDR & (1)) == 0)
+		{	
+			//continually get the average of all the values to establish a baseline
+			baselineBPM = (n*baselineBPM + getBeats())/(n+1); 
+			baselineR = (n*baselineR + getResult())/(n+1);;
+			n++;
 		}
 		
+		while((GPIOA->IDR & (1)) != 0);
+		
+		while((GPIOA->IDR & (1)) == 0)
+		{
+			
+			if((GPIOA->IDR & (1<<5))){
+				displaySetting = (displaySetting + 1) % 3;
+				while((GPIOA->IDR & (1<<5)) != 0);
+			}
+			uint32_t input = getResult();
+			uint32_t inputBPM = getBeats();
+			LCD_DisplayString(string);
+			
+			if(displaySetting == 0){
+				//mode 1, is it a lie or not?
+				if(input > (baselineR+200))					//maybe adjust the 200....
+				{
+					string = (uint8_t*)"lies!  ";
+				}
+				else
+				{
+					string = (uint8_t*)"true!  ";
+					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
+				}
+			}else if(displaySetting == 1){
+				//mode 2, bpm
+				string = toString(inputBPM);
+			} else {
+				//do we want a mode 3 for the resistivity?
+				string = toString(input);
+			}
+			
+		}
+		while((GPIOA->IDR & (1)) != 0);
 	}
-
   
 
 	
