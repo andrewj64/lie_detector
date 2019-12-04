@@ -119,6 +119,7 @@ int main(void){
 	TIM2_Init();
 	motor_init(); //uses PB2,PB3,PB6,PB7
 	set_speed(8000);	//for motor
+	//ADC1->CR |= ADC_CR_ADSTART;
 	
 	//initialize pa5 for the button overlay
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
