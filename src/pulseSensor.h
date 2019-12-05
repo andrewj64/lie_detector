@@ -11,8 +11,11 @@
 
 
 
-void adc2Init();
-void ADC2_Wakeup();
+void adc2Init(void);
+void ADC2_Wakeup(void);
+void resetVariables(void);
+void processLatestSample(uint32_t Signal);
+uint32_t getBPM(void);
 
 
 

@@ -88,6 +88,7 @@
 *
 */ 
 uint8_t * toString(int x);
+void shoot(void);
 
 int main(void){
 	int displaySetting = 0;
@@ -117,8 +118,11 @@ int main(void){
 	//   SEG4 = PB15    SEG10 = PA15     SEG16 = PD12    SEG22 = PC4
 	//   SEG5 = PD9     SEG11 = PB4      SEG17 = PD10    SEG23 = PA6
 	TIM2_Init();
+	TIM3_Init();
+	resetVariables();
 	motor_init(); //uses PB2,PB3,PB6,PB7
 	set_speed(8000);	//for motor
+	//shoot();
 	//ADC1->CR |= ADC_CR_ADSTART;
 	
 	//initialize pa5 for the button overlay
@@ -140,8 +144,8 @@ int main(void){
 		while((GPIOA->IDR & (1)) == 0)
 		{	
 			//continually get the average of all the values to establish a baseline
-			baselineBPM = (n*baselineBPM + getBeats())/(n+1); 
-			baselineR = (n*baselineR + getResult())/(n+1);;
+			baselineBPM = (n*baselineBPM + getBPM())/(n+1); 
+			baselineR = (n*baselineR + getResistivity())/(n+1);;
 			n++;
 		}
 		
@@ -154,28 +158,30 @@ int main(void){
 				displaySetting = (displaySetting + 1) % 3;
 				while((GPIOA->IDR & (1<<5)) != 0);
 			}
-			uint32_t input = getResult();
-			uint32_t inputBPM = getBeats();
+			uint32_t inputR = getResistivity();
+			uint32_t inputBPM = getBPM();
 			LCD_DisplayString(string);
 			
 			if(displaySetting == 0){
 				//mode 1, is it a lie or not?
-				if(input > (baselineR+200))					//maybe adjust the 200....
+				if(inputR > (baselineR+30) && inputBPM > baselineBPM + 12)					//maybe adjust the 200....
 				{
 					string = (uint8_t*)"lies!  ";
+					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
+					//shoot();
 				}
 				else
 				{
 					string = (uint8_t*)"true!  ";
-					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
+					
 				}
 			}else if(displaySetting == 1){
 				//mode 2, bpm
-				string = toString((int)(inputBPM - baselineBPM));
+				string = toString((int)(inputBPM));
 
 			} else {
 				//do we want a mode 3 for the resistivity?
-				string = toString((int)(input - baselineR));
+				string = toString((int)(inputR - baselineR));
 			}
 			
 		}
@@ -191,6 +197,16 @@ int main(void){
 //		//for(int i = 0; i < 200000;i++);
 //		//tick_down();
 //	}
+}
+
+void shoot()
+{
+	while(1)
+	{
+		tick_up();
+		//for(int i = 0; i < 200000;i++);
+		//tick_down();
+	}
 }
 
 uint8_t * toString(int x)

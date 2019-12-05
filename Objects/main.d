@@ -12,7 +12,7 @@
 .\objects\main.o: src\LCD.h
 .\objects\main.o: src\motor.h
 .\objects\main.o: src\ADC.h
-.\objects\main.o: src\resistivity.h
 .\objects\main.o: src\pulseSensor.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\main.o: src\resistivity.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

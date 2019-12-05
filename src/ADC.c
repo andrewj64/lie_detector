@@ -1,6 +1,6 @@
 #include "ADC.h"
 
-uint32_t result, beats;
+uint32_t resistivity, beats;
 
 void adcInit(void)
 {
@@ -101,10 +101,10 @@ void TIM2_Init(void)
 //	TIM2->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2;		// 0110 = PWM mode 1
 	
 	// timer driving frequency = 2 MHz/(1+PSC) = 2 MHz/(1+7) = 2 MHz
-	// trigger frequency = 2 MHz/(1+ARR) = 2MHz/(1+3999) = 500 Hz
+	// trigger frequency = 2 MHz/(1+ARR) = 2MHz/(1+399) = 5000 Hz
 	TIM2->PSC  = 7;
-	TIM2->ARR  = 3999;
-	TIM2->CCR1 = 2000;		// duty ratio 50%
+	TIM2->ARR  = 399;
+	TIM2->CCR1 = 200;		// duty ratio 50%
 	TIM2->DIER |= TIM_DIER_UIE;
 	
 	//TIM2->CCER |= TIM_CCER_CC1E;	//OC1 signal is output
@@ -123,8 +123,8 @@ void TIM3_Init(void)
 	// timer driving frequency = 2 MHz/(1+PSC) = 2 MHz/(1+7) = 2 MHz
 	// trigger frequency = 2 MHz/(1+ARR) = 2MHz/(1+3999) = 500 Hz
 	TIM3->PSC  = 7;
-	TIM3->ARR  = 3999;
-	TIM3->CCR1 = 2000;		// duty ratio 50%
+	TIM3->ARR  = 1999;
+	TIM3->CCR1 = 1000;		// duty ratio 50%
 	TIM3->DIER |= TIM_DIER_UIE;
 	
 	NVIC_EnableIRQ(TIM3_IRQn);
@@ -152,12 +152,7 @@ void ADC1_Wakeup(void)
 
 void TIM3_IRQHandler()
 {
-	// check if the pulse is high or low
-	// add logic from PulseSensor::processLatestSample()?
-	if(result < 100)	// high pulse
-	{
-		beats++;
-	}
+	processLatestSample(beats);
 	TIM3->SR &= ~TIM_SR_UIF; // clear flag
 }
 
@@ -175,7 +170,7 @@ void ADC1_2_IRQHandler()
 {
 	if((ADC1->ISR & ADC_ISR_EOC) == ADC_ISR_EOC)
 	{
-		result = ADC1->DR;
+		resistivity = ADC1->DR;
 		ADC2->CR |= ADC_CR_ADSTART;
 	} else if((ADC2->ISR & ADC_ISR_EOC) == ADC_ISR_EOC)
 	{
@@ -185,14 +180,8 @@ void ADC1_2_IRQHandler()
 	}
 }
 
-uint32_t getResult()
+uint32_t getResistivity()
 {
-	return result;
+	return resistivity;
 }
-
-uint32_t getBeats()
-{
-	return beats;
-}
-
 

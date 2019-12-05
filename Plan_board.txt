@@ -20,3 +20,15 @@ look at pulse sensor data sheet
 	-research how much bpm constitutes a lie
 resistivity sensor circuit design
 	-test to see what kind of variation we can say is a lie
+
+updated thiings to do:
+  /
+\/. figure out the two channel adc - still breaks at oversaturation on the second channel, but this is a working solution.
+
+2. get BPM
+3. configure outputs to trigger at lie
+
+4. Figure out how long the motor needs to run
+
+5. build chasis and maybe solder the circuit
+

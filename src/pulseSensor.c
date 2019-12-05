@@ -13,14 +13,14 @@ bool secondBeat;              // used to seed rate array so we startup with reas
 uint32_t pulse;
 
 
-volatile int BPM;                // int that holds raw Analog in 0. updated every call to readSensor()
-volatile int Signal;             // holds the latest incoming raw data (0..1023)
-volatile int IBI;                // int that holds the time interval (ms) between beats! Must be seeded!
-volatile bool Pulse;          // "True" when User's live heartbeat is detected. "False" when not a "live beat".
-volatile bool QS;             // The start of beat has been detected and not read by the Sketch.
-volatile int threshSetting;      // used to seed and reset the thresh variable
-volatile int amp;                         // used to hold amplitude of pulse waveform, seeded (sample value)
-volatile unsigned long lastBeatTime;      // used to find IBI. Time (sampleCounter) of the previous detected beat start.
+int BPM;                // int that holds raw Analog in 0. updated every call to readSensor()
+//volatile int Signal;             // holds the latest incoming raw data (0..1023)
+int IBI;                // int that holds the time interval (ms) between beats! Must be seeded!
+bool Pulse;          // "True" when User's live heartbeat is detected. "False" when not a "live beat".
+bool QS;             // The start of beat has been detected and not read by the Sketch.
+int threshSetting;      // used to seed and reset the thresh variable
+int amp;                         // used to hold amplitude of pulse waveform, seeded (sample value)
+unsigned long lastBeatTime;      // used to find IBI. Time (sampleCounter) of the previous detected beat start.
 
 void adc2Init()
 {
@@ -121,14 +121,6 @@ void ADC2_Wakeup(void)
 		waitTime--;
 }
 
-void ADC2_2_IRQHandler()
-{
-	if((ADC2->ISR & ADC_ISR_EOC) == ADC_ISR_EOC)
-	{
-		pulse = ADC2->DR;
-		//ADC2->ISR |= ADC_ISR_ADRDY;
-	}
-}
 
 void resetVariables()
 {
@@ -141,20 +133,20 @@ void resetVariables()
   Pulse = false;
   sampleCounter = 0;
   lastBeatTime = 0;
-  P = 512;                    // peak at 1/2 the input range of 0..1023
-  T = 512;                    // trough at 1/2 the input range.
-  threshSetting = 550;        // used to seed and reset the thresh variable
-  thresh = 550;     // threshold a little above the trough
-  amp = 100;                  // beat amplitude 1/10 of input range.
+  P = 2000;		//about halfway                    // peak at 1/2 the input range of 0..1023
+  T = 2000;		//512;                    // trough at 1/2 the input range.
+  threshSetting = 2050;//550;        // used to seed and reset the thresh variable
+  thresh = 2050;//550;     // threshold a little above the trough
+  amp = 400;                  // beat amplitude 1/10 of input range.
   firstBeat = true;           // looking for the first beat
   secondBeat = false;         // not yet looking for the second beat in a row
 }
 
-void processLatestSample() {
+void processLatestSample(uint32_t Signal) {
   // Serial.println(threshSetting);
   // Serial.print('\t');
   // Serial.println(thresh);
-  sampleCounter += sampleIntervalMs;         // keep track of the time in mS with this variable
+  sampleCounter += 1;         			// keep track of the time in mS with this variable
   int N = sampleCounter - lastBeatTime;      // monitor the time since the last beat to avoid noise
 
 
@@ -203,7 +195,7 @@ void processLatestSample() {
       rate[9] = IBI;                          // add the latest IBI to the rate array
       runningTotal += rate[9];                // add the latest IBI to runningTotal
       runningTotal /= 10;                     // average the last 10 IBI values
-      BPM = 60000 / runningTotal;             // how many beats can fit into a minute? that's BPM!
+      BPM = 30000 / runningTotal ;             // how many beats can fit into a half minute? that's BPM!
       QS = true;                              // set Quantified Self flag (we detected a beat)
     }
   }
@@ -218,8 +210,8 @@ void processLatestSample() {
 
   if (N > 2500) {                          // if 2.5 seconds go by without a beat
     thresh = threshSetting;                // set thresh default
-    P = 512;                               // set P default
-    T = 512;                               // set T default
+    P = 2000;                               // set P default
+    T = 2000;                               // set T default
     lastBeatTime = sampleCounter;          // bring the lastBeatTime up to date
     firstBeat = true;                      // set these to avoid noise
     secondBeat = false;                    // when we get the heartbeat back
@@ -227,7 +219,12 @@ void processLatestSample() {
     BPM = 0;
     IBI = 600;                  // 600ms per beat = 100 Beats Per Minute (BPM)
     Pulse = false;
-    amp = 100;                  // beat amplitude 1/10 of input range.
+    amp = 400;                  // beat amplitude 1/10 of input range.
 
   }
+}
+
+uint32_t getBPM()
+{
+	return BPM;
 }
