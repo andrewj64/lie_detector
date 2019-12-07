@@ -94,6 +94,9 @@ int main(void){
 	int displaySetting = 0;
 	int n;
 	float baselineBPM, baselineR;
+	uint32_t inputR, inputBPM;
+	bool truth = true;
+	bool check = true;
 	
 	// Switch system clock to HSI here
  	RCC->CR |= RCC_CR_HSION;
@@ -122,8 +125,12 @@ int main(void){
 	resetVariables();
 	motor_init(); //uses PB2,PB3,PB6,PB7
 	set_speed(8000);	//for motor
-	//shoot();
 	//ADC1->CR |= ADC_CR_ADSTART;
+	// initialize GPIOE PE8 for green LED
+	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
+	
+	GPIOE->MODER &= ~GPIO_MODER_MODE8;
+	GPIOE->MODER |= GPIO_MODER_MODE8_0;		// configure PE8 to output mode
 	
 	//initialize pa5 for the button overlay
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
@@ -133,80 +140,151 @@ int main(void){
 	GPIOA->PUPDR &= ~(0xC03);
 	GPIOA->PUPDR |= 0x802;
 	
-	uint8_t* string = (uint8_t*)"start";
-	while(1)
-	{
-		//baseline loop
-		baselineBPM = 0;
-		baselineR = 0;
-		n = 0;
-		LCD_DisplayString(string);
-		while((GPIOA->IDR & (1)) == 0)
-		{	
-			//continually get the average of all the values to establish a baseline
-			baselineBPM = (n*baselineBPM + getBPM())/(n+1); 
-			baselineR = (n*baselineR + getResistivity())/(n+1);;
-			n++;
-		}
-		
-		while((GPIOA->IDR & (1)) != 0);
-		
-		while((GPIOA->IDR & (1)) == 0)
-		{
-			
-			if((GPIOA->IDR & (1<<5))){
-				displaySetting = (displaySetting + 1) % 3;
-				while((GPIOA->IDR & (1<<5)) != 0);
-			}
-			uint32_t inputR = getResistivity();
-			uint32_t inputBPM = getBPM();
-			LCD_DisplayString(string);
-			
-			if(displaySetting == 0){
-				//mode 1, is it a lie or not?
-				if(inputR > (baselineR+30) && inputBPM > baselineBPM + 12)					//maybe adjust the 200....
-				{
-					string = (uint8_t*)"lies!  ";
-					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
-					//shoot();
-				}
-				else
-				{
-					string = (uint8_t*)"true!  ";
-					
-				}
-			}else if(displaySetting == 1){
-				//mode 2, bpm
-				string = toString((int)(inputBPM));
-
-			} else {
-				//do we want a mode 3 for the resistivity?
-				string = toString((int)(inputR - baselineR));
-			}
-			
-		}
-		while((GPIOA->IDR & (1)) != 0);
+	uint8_t* string;
+	string = (uint8_t*)"test   ";
+	LCD_DisplayString(string);
+	// test loop
+	while((GPIOA->IDR & (1)) == 0);
+	while((GPIOA->IDR & (1)) != 0);
+	//baseline loop
+	baselineBPM = 0;
+	baselineR = 0;
+	n = 0;
+	string = (uint8_t*)"base";
+	LCD_DisplayString(string);
+	while((GPIOA->IDR & (1)) == 0)
+	{	
+		//continually get the average of all the values to establish a baseline
+		baselineBPM = (n*baselineBPM + getBPM())/(n+1); 
+		baselineR = (n*baselineR + getResistivity())/(n+1);;
+		n++;
 	}
-  
-
 	
-//	
-//	while(1)
-//	{
-//		tick_up();
-//		//for(int i = 0; i < 200000;i++);
-//		//tick_down();
-//	}
+	while((GPIOA->IDR & (1)) != 0);
+	
+	while(1)			// main lie detector loop
+	{
+		if((GPIOA->IDR & (1)) != 0)
+		{
+			check = true;
+			while((GPIOA->IDR & (1)) == 0);		// debounce
+		}
+		if((GPIOA->IDR & (1<<5))){
+			displaySetting = (displaySetting + 1) % 3;
+			while((GPIOA->IDR & (1<<5)) != 0);
+		} 
+		
+		LCD_DisplayString(string);
+		if(check)
+		{
+			inputR = getResistivity();
+			inputBPM = getBPM();
+			//mode 1, is it a lie or not?
+			if((inputR > (baselineR+80) && inputBPM > baselineBPM + 8))					//maybe adjust the 200....
+			{
+				string = (uint8_t*)"liesBR";
+				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
+				truth = false;
+				displaySetting = 0;
+				//shoot();
+				//while(1);
+			}
+			else if((inputBPM > baselineBPM + 10))
+			{
+				string = (uint8_t*)"liesB";
+				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
+				truth = false;
+				displaySetting = 0;
+				//shoot();
+				//while(1);
+			}
+			else if((inputR > baselineR+100))
+			{
+				string = (uint8_t*)"liesR";
+				truth = false;
+				displaySetting = 0;
+				LCD_DisplayString(string);
+				//shoot();
+				//while(1);
+			}
+			else
+			{
+				string = (uint8_t*)"true!  ";
+				truth = true;
+			}
+		}
+		if(displaySetting == 0)
+		{
+			if(truth)
+				string = (uint8_t*)"true";
+			else
+				string = (uint8_t*)"lies";
+			//LCD_DisplayString(string);
+
+//				//mode 1, is it a lie or not?
+//				if((inputR > (baselineR+80) && inputBPM > baselineBPM + 8))					//maybe adjust the 200....
+//				{
+//					string = (uint8_t*)"liesBR";
+//					LCD_DisplayString(string);
+//					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
+//					//shoot();
+//					while(1);
+//				}
+//				else if((inputBPM > baselineBPM + 10))
+//				{
+//					string = (uint8_t*)"liesB";
+//					LCD_DisplayString(string);
+//					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
+//					//shoot();
+//					while(1);
+//				}
+//				else if((inputR > baselineR+100))
+//				{
+//					string = (uint8_t*)"liesR";
+//					LCD_DisplayString(string);
+//					//shoot();
+//					while(1);
+//				}
+//				else
+//				{
+//					string = (uint8_t*)"true!  ";
+//					
+//				}
+		}
+		else if(displaySetting == 1)		// BPM display state
+		{
+			//mode 2, bpm
+			string = toString((int)(inputBPM));
+			//LCD_DisplayString(string);
+		} 
+		else if(displaySetting == 2)		// Resistivity difference display state
+		{
+			//do we want a mode 3 for the resistivity?
+			string = toString((int)(inputR - baselineR));
+			//LCD_DisplayString(string);
+		}
+		LCD_DisplayString(string);
+		if(!truth && check)
+		{
+			shoot();
+			check = false;
+		}
+		
+	}
 }
+
 
 void shoot()
 {
-	while(1)
+	int i = 0;
+	while(i<3)
 	{
-		tick_up();
-		//for(int i = 0; i < 200000;i++);
-		//tick_down();
+ 		tick_up();
+		i++;
 	}
+	//tick_down();
+	//tick_down();
+	//tick_down();
 }
 
 uint8_t * toString(int x)

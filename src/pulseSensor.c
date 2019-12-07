@@ -197,6 +197,8 @@ void processLatestSample(uint32_t Signal) {
       runningTotal /= 10;                     // average the last 10 IBI values
       BPM = 30000 / runningTotal ;             // how many beats can fit into a half minute? that's BPM!
       QS = true;                              // set Quantified Self flag (we detected a beat)
+			
+			GPIOE->ODR ^= GPIO_ODR_OD8;			// Toggle heartbeat LED
     }
   }
 
