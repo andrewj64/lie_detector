@@ -180,25 +180,23 @@ int main(void){
 			inputR = getResistivity();
 			inputBPM = getBPM();
 			//mode 1, is it a lie or not?
-			if((inputR > (baselineR+80) && inputBPM > baselineBPM + 8))					//maybe adjust the 200....
+			if(inputR > (baselineR+100) && inputBPM > (baselineBPM + 9))					//maybe adjust the 200....
 			{
 				string = (uint8_t*)"liesBR";
 				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
 				truth = false;
 				displaySetting = 0;
 				//shoot();
-				//while(1);
 			}
-			else if((inputBPM > baselineBPM + 10))
+			else if((inputBPM > baselineBPM + 15))
 			{
 				string = (uint8_t*)"liesB";
 				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
 				truth = false;
 				displaySetting = 0;
 				//shoot();
-				//while(1);
 			}
-			else if((inputR > baselineR+100))
+			else if((inputR > baselineR+120))
 			{
 				string = (uint8_t*)"liesR";
 				truth = false;
@@ -221,52 +219,25 @@ int main(void){
 				string = (uint8_t*)"lies";
 			//LCD_DisplayString(string);
 
-//				//mode 1, is it a lie or not?
-//				if((inputR > (baselineR+80) && inputBPM > baselineBPM + 8))					//maybe adjust the 200....
-//				{
-//					string = (uint8_t*)"liesBR";
-//					LCD_DisplayString(string);
-//					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
-//					//shoot();
-//					while(1);
-//				}
-//				else if((inputBPM > baselineBPM + 10))
-//				{
-//					string = (uint8_t*)"liesB";
-//					LCD_DisplayString(string);
-//					//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
-//					//shoot();
-//					while(1);
-//				}
-//				else if((inputR > baselineR+100))
-//				{
-//					string = (uint8_t*)"liesR";
-//					LCD_DisplayString(string);
-//					//shoot();
-//					while(1);
-//				}
-//				else
-//				{
-//					string = (uint8_t*)"true!  ";
-//					
-//				}
 		}
 		else if(displaySetting == 1)		// BPM display state
 		{
 			//mode 2, bpm
-			string = toString((int)(inputBPM));
+			string = toString((int)(inputBPM - baselineBPM));
+			//string = toString((int)(inputBPM));
 			//LCD_DisplayString(string);
 		} 
 		else if(displaySetting == 2)		// Resistivity difference display state
 		{
 			//do we want a mode 3 for the resistivity?
+			//string = toString((int)(inputBPM - baselineBPM));
 			string = toString((int)(inputR - baselineR));
 			//LCD_DisplayString(string);
 		}
 		LCD_DisplayString(string);
 		if(!truth && check)
 		{
-			shoot();
+			//shoot();
 			check = false;
 		}
 		
@@ -276,12 +247,10 @@ int main(void){
 
 void shoot()
 {
-	int i = 0;
-	while(i<3)
-	{
+	for(int i = 0; i<3; i++)
  		tick_up();
-		i++;
-	}
+	for(int i = 0; i<2; i++)
+ 		tick_down();
 	//tick_down();
 	//tick_down();
 	//tick_down();
