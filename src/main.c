@@ -103,9 +103,6 @@ int main(void){
 	
 	while((RCC->CR & RCC_CR_HSIRDY) == 0); //wait for ready bit
 	
-//	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
-//	GPIOA->MODER &= ~0xF;
-	
 	adcInit(); //uses PA1
 	adc2Init(); // uses PA2
 	LCD_Initialization();		//no gpio
@@ -125,18 +122,15 @@ int main(void){
 	resetVariables();
 	motor_init(); //uses PB2,PB3,PB6,PB7
 	set_speed(8000);	//for motor
-	//ADC1->CR |= ADC_CR_ADSTART;
-	// initialize GPIOE PE8 for green LED
-	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
 	
+	// Configure green LED for BPM
+	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOEEN;
 	GPIOE->MODER &= ~GPIO_MODER_MODE8;
 	GPIOE->MODER |= GPIO_MODER_MODE8_0;		// configure PE8 to output mode
 	
 	//initialize pa5 for the button overlay
 	RCC->AHB2ENR |= RCC_AHB2ENR_GPIOAEN;
-	
 	GPIOA->MODER &= ~(0xC03);
-	
 	GPIOA->PUPDR &= ~(0xC03);
 	GPIOA->PUPDR |= 0x802;
 	
@@ -186,7 +180,6 @@ int main(void){
 				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
 				truth = false;
 				displaySetting = 0;
-				//shoot();
 			}
 			else if((inputBPM > baselineBPM + 15))
 			{
@@ -194,16 +187,12 @@ int main(void){
 				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
 				truth = false;
 				displaySetting = 0;
-				//shoot();
 			}
 			else if((inputR > baselineR+120))
 			{
 				string = (uint8_t*)"liesR";
 				truth = false;
 				displaySetting = 0;
-				LCD_DisplayString(string);
-				//shoot();
-				//while(1);
 			}
 			else
 			{
@@ -217,28 +206,23 @@ int main(void){
 				string = (uint8_t*)"true";
 			else
 				string = (uint8_t*)"lies";
-			//LCD_DisplayString(string);
-
 		}
 		else if(displaySetting == 1)		// BPM display state
 		{
 			//mode 2, bpm
 			string = toString((int)(inputBPM - baselineBPM));
 			//string = toString((int)(inputBPM));
-			//LCD_DisplayString(string);
 		} 
 		else if(displaySetting == 2)		// Resistivity difference display state
 		{
-			//do we want a mode 3 for the resistivity?
 			//string = toString((int)(inputBPM - baselineBPM));
 			string = toString((int)(inputR - baselineR));
-			//LCD_DisplayString(string);
 		}
 		LCD_DisplayString(string);
 		if(!truth && check)
 		{
 			//shoot();
-			check = false;
+			check = false;		// pause to be able to look at the conditions that triggered the lie state
 		}
 		
 	}
@@ -247,13 +231,11 @@ int main(void){
 
 void shoot()
 {
+	// pull the trigger
 	for(int i = 0; i<3; i++)
  		tick_up();
 	for(int i = 0; i<2; i++)
  		tick_down();
-	//tick_down();
-	//tick_down();
-	//tick_down();
 }
 
 uint8_t * toString(int x)
@@ -261,18 +243,18 @@ uint8_t * toString(int x)
 	static uint8_t numString[4];
 	int y;
 	if(x < 0)
-		{
-			numString[0] = '-';
-		} else {
-			numString[0] = '0';
-		}
+	{
+		numString[0] = '-';
+	} else {
+		numString[0] = '0';
+	}
 	int z = abs(x);
 	for(int i = 1; i < 4; i++)
-		{
-			y = z %10;
-			z /= 10;
-			numString[4 - i] = (y + 48);
-		}
+	{
+		y = z %10;
+		z /= 10;
+		numString[4 - i] = (y + 48);
+	}
 		
-	 return numString;
+	return numString;
 }
