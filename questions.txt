@@ -1,3 +1,12 @@
+- Polygraphs background
+- Hardware design
+- Software design (states and detection)
+- We hope this works. volunteer?
+Demonstration
+- Questions?
+
+
+
 Questions:
 
 Are you good at lying.
