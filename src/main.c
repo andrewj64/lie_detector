@@ -225,7 +225,7 @@ int main(void){
 		LCD_DisplayString(string);
 		if(!truth && check)
 		{
-			//shoot();
+			shoot();
 			check = false;		// pause to be able to look at the conditions that triggered the lie state
 		}
 		
