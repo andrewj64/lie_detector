@@ -214,7 +214,7 @@ int main(void){
 		else if(displaySetting == 1)		// BPM display state
 		{
 			//mode 2, bpm
-			string = toString((int)(inputBPM - baselineBPM));
+			string = toString((int)(inputBPM));
 			//string = toString((int)(inputBPM));
 		} 
 		else if(displaySetting == 2)		// Resistivity difference display state
