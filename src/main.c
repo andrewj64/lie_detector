@@ -95,6 +95,10 @@ int main(void){
 	int n;
 	float baselineBPM, baselineR;
 	uint32_t inputR, inputBPM;
+	uint32_t threshR_comb = 100;
+	uint32_t threshBPM_comb = 9;
+	uint32_t threshR = 120;
+	uint32_t threshBPM = 15;
 	bool truth = true;
 	bool check = true;
 	
@@ -174,21 +178,21 @@ int main(void){
 			inputR = getResistivity();
 			inputBPM = getBPM();
 			//mode 1, is it a lie or not?
-			if(inputR > (baselineR+100) && inputBPM > (baselineBPM + 9))					//maybe adjust the 200....
+			if(inputR > (baselineR+ threshR_comb) && inputBPM > (baselineBPM + threshBPM_comb))					//maybe adjust the 200....
 			{
 				string = (uint8_t*)"liesBR";
 				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
 				truth = false;
 				displaySetting = 0;
 			}
-			else if((inputBPM > baselineBPM + 15))
+			else if((inputBPM > baselineBPM + threshBPM))
 			{
 				string = (uint8_t*)"liesB";
 				//shoot nerf gun. Need to work out how long we want the motor to spin to shoot the gun
 				truth = false;
 				displaySetting = 0;
 			}
-			else if((inputR > baselineR+120))
+			else if((inputR > baselineR + threshR))
 			{
 				string = (uint8_t*)"liesR";
 				truth = false;

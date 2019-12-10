@@ -198,7 +198,7 @@ void processLatestSample(uint32_t Signal) {
       BPM = 30000 / runningTotal ;             // how many beats can fit into a half minute? that's BPM!
       QS = true;                              // set Quantified Self flag (we detected a beat)
 			
-			GPIOE->ODR ^= GPIO_ODR_OD8;			// Toggle heartbeat LED
+	  GPIOE->ODR ^= GPIO_ODR_OD8;			// Toggle heartbeat LED
     }
   }
 
@@ -222,7 +222,6 @@ void processLatestSample(uint32_t Signal) {
     IBI = 600;                  // 600ms per beat = 100 Beats Per Minute (BPM)
     Pulse = false;
     amp = 400;                  // beat amplitude 1/10 of input range.
-
   }
 }
 
